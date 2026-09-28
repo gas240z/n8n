@@ -9,13 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.DROPLET_HOST }}
           username: root
-          password: ${{ secrets.DROPLET_PASSWORD }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
             cd /opt/self-hosted-ai-starter-kit
             git pull origin main
-            docker compose up -d --build
+            docker compose up -d postgres n8n
             docker image prune -f
